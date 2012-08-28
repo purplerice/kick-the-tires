@@ -1,0 +1,30 @@
+<%= 'Search by City Name or Tag:' %>
+
+<%= form_tag cities_path, :method => :get do %>
+  <p>
+    <%= text_field_tag :search, params[:search] %>
+    <%= submit_tag "Search", :name => nil, :class=>"btn" %>
+    <%= link_to "Clear", root_path, :class=>"btn" %>
+  </p>
+<% end %>
+<h3> List of Cities</h3>
+<table class="table table-striped">
+  <tr>
+    <th>Name</th>
+    <th>Latitude</th>
+    <th>Longitude</th>
+    <th>Actions</th>
+  </tr>
+  <% for city in @cities %>
+    <tr>
+      <td><%= city.name %></td>
+      <td><%= city.latitude %></td>
+      <td><%= city.longitude %></td>
+      <td><%= link_to "Show", city, :class=>"btn btn-info" %>
+      <%= link_to "Edit", edit_city_path(city), :class=>"btn btn-success" %>
+      <%= link_to "Destroy", city, :confirm => 'Are you sure?', :method => :delete, :class=>"btn btn-danger" %></td>
+    </tr>
+  <% end %>
+</table>
+
+<p><%= link_to "New City", new_city_path %></p>
