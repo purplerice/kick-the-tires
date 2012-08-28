@@ -2,9 +2,25 @@ class CitiesController < ApplicationController
 
   before_filter :find_city, :only => [:edit, :update, :destroy, :viewcity, :add_tag]
 
+  def search
+    if params[:search].present?
+      by_what = params[:radio_button] == 'search_by_name' ? 'name' : 'tag'
+      @cities = City.search(params[:search],by_what)
+    else
+      @cities = City.all
+    end
+    respond_to do |format|
+      format.html
+      format.js
+    end
+  end
+
   def index
     if params[:search].present?
-      @cities = City.search(params[:search])
+      #by_what = params[:search_by_name].present? ? 'name' : 'tag'
+      by_what = params[:search_by] == 'search_by_name' ? 'name' : 'tag'
+      @cities = City.search(params[:search],by_what )
+
     else
       @cities = City.all
     end

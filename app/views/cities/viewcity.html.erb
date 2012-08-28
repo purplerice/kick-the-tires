@@ -18,8 +18,13 @@
 
     <p id="tags" style="display:block;">
       <strong>Tags:</strong>
-      <%= @city.tag_names %>
-      <%= link_to "Add Tag", addtag_path(@city), :remote => true %>
+      <% @tmp = @city.tag_names.split(",") %>
+      <%  @city.tag_names.split(",").each do |e| %>
+          <%= link_to e, search_cities_path(:search => e, :radio_button => 'search_by_tag') %>
+      <% end %>
+      <%#= link_to @city.tag_names, search_cities_path(:search => @city.tag_names, :radio_button => 'search_by_tag',:remote=>true) %>
+      <%#= link_to @city.tag_names, search_cities_path(:search => @city.tag_names, :radio_button => 'search_by_tag') %>
+      <%= link_to "Edit Tag", addtag_path(@city), :remote => true %>
       <div id="new_tags" style="display:none;"></div>
     </p>
 
@@ -41,5 +46,5 @@
 <p>
   <%= link_to "Edit", edit_city_path(@city) %> |
   <%= link_to "Destroy", @city, :confirm => 'Are you sure?', :method => :delete %> |
-  <%= link_to "View All", cities_path %>
+  <%= link_to "View All", search_cities_path %>
 </p>

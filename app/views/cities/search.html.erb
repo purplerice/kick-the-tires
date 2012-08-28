@@ -1,0 +1,22 @@
+<div class="row">
+  <div class="span6">
+    <%= form_tag cities_path, :method => :get, :remote => true do %>
+        <p>
+          <%= radio_button_tag 'search_by', 'search_by_name' %> City name
+          <%= radio_button_tag 'search_by', 'search_by_tag' %> Tag
+          <br />
+          <%= text_field_tag :search, params[:search] %>
+          <%= submit_tag "Search", :name => nil, :class => "btn" %>
+          <%= link_to "Clear", clear_fields_cities_path, :remote => true, :class => "btn" %>
+        </p>
+    <% end %>
+  </div>
+  <div class="span2 offset2">
+    <p><%= link_to "Create New City", new_city_path, :class=>'btn' %></p>
+  </div>
+</div>
+<div id="city_list">
+  <%=  render :partial => 'cities/city_list' %>
+</div>
+
+<p><%= link_to "New City", new_city_path %></p>
