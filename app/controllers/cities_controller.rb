@@ -1,18 +1,29 @@
 class CitiesController < ApplicationController
 
-  before_filter :find_city, :only => [ :show, :edit, :update, :destroy]
+  before_filter :find_city, :only => [:edit, :update, :destroy, :viewcity, :add_tag]
 
   def index
     if params[:search].present?
-      #@cities = City.near(params[:search], nil, :order => :distance)
       @cities = City.search(params[:search])
-      #@cities = City.near(params[:search], :order => :distance)
     else
-    @cities = City.all
+      @cities = City.all
+    end
+    respond_to do |format|
+      format.html
+      format.js
     end
   end
 
-  def show
+  #def show
+  #  @nearest_ten = @city.nearbys
+  #
+  #  respond_to do |format|
+  #    format.html
+  #  end
+  #
+  #end
+
+  def viewcity
     @nearest_ten = @city.nearbys
 
     respond_to do |format|
@@ -23,6 +34,10 @@ class CitiesController < ApplicationController
 
   def new
     @city = City.new
+
+    respond_to do |format|
+      format.html
+    end
   end
 
   def create
@@ -31,7 +46,7 @@ class CitiesController < ApplicationController
     respond_to do |format|
       if @city.save
         flash.now[:success] = "City saved successfully!!"
-        format.html { redirect_to @city, notice: "Successfully created city." }
+        format.html { redirect_to viewcity_path(@city), notice: "Successfully created city." }
         format.json { render json: @city, status: :created, location: @city }
       else
         flash.now[:error]=@city.errors.full_messages
@@ -45,17 +60,38 @@ class CitiesController < ApplicationController
   end
 
   def update
-    if @city.update_attributes(params[:city])
-      redirect_to @city, :notice => "Successfully updated city."
-    else
-      render :action => 'edit'
+    respond_to do |format|
+      if @city.update_attributes(params[:city])
+        format.html { redirect_to viewcity_path(@city), :notice => "Successfully updated city." }
+      else
+        format.html { render :action => 'edit' }
+      end
     end
+
   end
 
   def destroy
     @city.destroy
-    redirect_to cities_url, :notice => "Successfully destroyed city."
+    respond_to do |format|
+      format.html {redirect_to cities_url, :notice => "Successfully destroyed city."}
+    end
   end
+
+  def clear_fields
+    @cities = City.all
+
+    respond_to do |format|
+      format.js
+    end
+  end
+
+  def add_tag
+    respond_to do |format|
+      format.js
+    end
+  end
+
+  protected
 
   def find_city
     @city = City.find(params[:id])

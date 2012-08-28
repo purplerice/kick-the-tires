@@ -3,13 +3,9 @@
     <%= f.label :name, 'Name of City:' %>
     <%= f.text_field :name %>
   </p>
-  <!--<p>-->
-    <%#= f.label :latitude %><br />
-    <!--<%#= f.text_field :latitude %>-->
-  <!--</p>-->
-  <!--<p>-->
-    <%#= f.label :longitude %><br />
-    <!--<%#= f.text_field :longitude %>-->
-  <!--</p>-->
+    <p>
+      <%= f.label :tag_names, "Tags" %>
+      <%=  f.text_field :tag_names %>
+    </p>
   <p><%= f.submit :class=>"btn btn-primary" %></p>
 <% end %>

@@ -1,0 +1,7 @@
+$('#search').html('');
+
+clear_fields = ('<%= escape_javascript(render(:partial => "cities/city_list"))%>');
+$('#city_list').html(clear_fields);
+
+
+

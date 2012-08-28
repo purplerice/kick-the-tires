@@ -1,0 +1,5 @@
+// Show field for adding new tag
+$('#new_tags').css("display","block");
+new_tags = ('<%= escape_javascript(render(:partial => "cities/new_tags"))%>');
+$('#new_tags').html(new_tags);
+$('#tags').css("display","none");

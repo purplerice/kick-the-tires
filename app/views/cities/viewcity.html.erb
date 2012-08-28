@@ -1,0 +1,45 @@
+<% full_title "City" %>
+<div class="row">
+  <div class="span6">
+    <p>
+      <strong>Name:</strong>
+      <%= @city.name %>
+    </p>
+
+    <p>
+      <strong>Latitude:</strong>
+      <%= @city.latitude %>
+    </p>
+
+    <p>
+      <strong>Longitude:</strong>
+      <%= @city.longitude %>
+    </p>
+
+    <p id="tags" style="display:block;">
+      <strong>Tags:</strong>
+      <%= @city.tag_names %>
+      <%= link_to "Add Tag", addtag_path(@city), :remote => true %>
+      <div id="new_tags" style="display:none;"></div>
+    </p>
+
+    <%= image_tag "http://maps.google.com/maps/api/staticmap?size=450x300&sensor=false&zoom=10&markers=#{@city.latitude}%2C#{@city.longitude}" %>
+
+  </div>
+  <div class="span3 offset2">
+
+    <h3>Nearby locations</h3>
+    <ul>
+      <% for city in @city.nearbys(100000, :limit => 10) %>
+          <li><%= link_to city.name, viewcity_path(city) %> (<%= city.distance.round(2) %> miles)</li>
+      <% end %>
+    </ul>
+  </div>
+</div>
+
+
+<p>
+  <%= link_to "Edit", edit_city_path(@city) %> |
+  <%= link_to "Destroy", @city, :confirm => 'Are you sure?', :method => :delete %> |
+  <%= link_to "View All", cities_path %>
+</p>

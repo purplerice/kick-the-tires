@@ -16,6 +16,11 @@
       <%= @city.longitude %>
     </p>
 
+    <p>
+      <strong>Tags:</strong>
+      <%= @city.tag_names %>
+    </p>
+
     <%= image_tag "http://maps.google.com/maps/api/staticmap?size=450x300&sensor=false&zoom=10&markers=#{@city.latitude}%2C#{@city.longitude}" %>
 
   </div>
