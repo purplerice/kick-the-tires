@@ -15,22 +15,22 @@
       <strong>Longitude:</strong>
       <%= @city.longitude %>
     </p>
-
     <p id="tags" style="display:block;">
       <strong>Tags:</strong>
-      <% @tmp = @city.tag_names.split(",") %>
-      <%  @city.tag_names.split(",").each do |e| %>
-          <%= link_to e, search_cities_path(:search => e, :radio_button => 'search_by_tag') %>
-      <% end %>
-      <%#= link_to @city.tag_names, search_cities_path(:search => @city.tag_names, :radio_button => 'search_by_tag',:remote=>true) %>
-      <%#= link_to @city.tag_names, search_cities_path(:search => @city.tag_names, :radio_button => 'search_by_tag') %>
-      <%= link_to "Edit Tag", addtag_path(@city), :remote => true %>
-      <div id="new_tags" style="display:none;"></div>
-    </p>
+      <span id="show_tags">
+        <% @city.tag_names.split(",").each do |e| %>
+            <%= link_to e.squish, root_path(:search => e.squish, :radio_button => 'search_by_tag') %>
+        <% end %>
+      </span>
 
-    <%= image_tag "http://maps.google.com/maps/api/staticmap?size=450x300&sensor=false&zoom=10&markers=#{@city.latitude}%2C#{@city.longitude}" %>
+        <%= link_to "Edit Tag", addtag_path(@city), :remote => true %>
 
-  </div>
+        <div id="new_tags" style="display:none;"></div>
+        </p>
+
+        <%= image_tag "http://maps.google.com/maps/api/staticmap?size=450x300&sensor=false&zoom=10&markers=#{@city.latitude}%2C#{@city.longitude}" %>
+
+        </div>
   <div class="span3 offset2">
 
     <h3>Nearby locations</h3>
@@ -46,5 +46,5 @@
 <p>
   <%= link_to "Edit", edit_city_path(@city) %> |
   <%= link_to "Destroy", @city, :confirm => 'Are you sure?', :method => :delete %> |
-  <%= link_to "View All", search_cities_path %>
+  <%= link_to "View All", cities_path %>
 </p>

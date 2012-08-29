@@ -13,14 +13,13 @@ class City < ActiveRecord::Base
   validates :name, presence: true
   validates_uniqueness_of :name, case_sensitive: false
 
-  default_scope order: 'cities.name ASC'
+  scope :by_asc, order: 'cities.name ASC'
 
   def tag_names
     @tag_names || tags.map(&:name).join(' ')
   end
 
   def self.search(search,by_what)
-    search = search.strip.squeeze(" ").downcase
     if search
       if by_what=='tag'
         joins(:tags).where('LOWER(cities.name) LIKE LOWER(?) OR LOWER(tags.name) LIKE LOWER(?)', "%#{search.downcase}%", "%#{search.downcase}%")
@@ -32,22 +31,6 @@ class City < ActiveRecord::Base
       find(:all)
     end
   end
-
-
-
-
-
-  #class < self
-    def self.search2(search)
-      joins(:tags).
-          where(<<-SQL, :name => search)
-            (cities.name = :name) OR
-             (tags.name  = :name OR
-             cities.name = :name)
-      SQL
-    end
-  #end
-
 
 
   private
